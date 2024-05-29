@@ -6,17 +6,47 @@ import config from "../config.js";
 const productsRouter = Router();
 const manager = new productManagerMdb();
 
+/**
+  modificar el método GET / para que cumpla con los siguientes puntos:
+
+
+// Deberá poder recibir por query params un limit (opcional), una page (opcional), un sort (opcional) y un query (opcional)
+
+- limit permitirá devolver sólo el número de elementos solicitados al momento de la petición, en caso de no recibir limit, éste será de 10.
+
+- page permitirá devolver la página que queremos buscar, en caso de no recibir page, ésta será de 1
+
+- query, el tipo de elemento que quiero buscar (es decir, qué filtro aplicar), en caso de no recibir query, realizar la búsqueda general
+
+- sort: asc/desc, para realizar ordenamiento ascendente o descendente por precio, en caso de no recibir sort, no realizar ningún ordenamiento
+ 
+ */
 //GET para traer todos los productos
 productsRouter.get("/", async (req, res) => {
   try {
     const allProducts = await manager.getAllProducts();
 
-    res.status(200).send({ origin: config.SERVER, playload: allProducts });
+    res.status(200).send({
+      origin: config.SERVER,
+      playload: allProducts,
+      totalPages: "Total de páginas",
+      prevPage: "Página anterior",
+      nextPage: "Página siguiente",
+      page: "Página actual",
+      hasPrevPage: "Indicador para saber si la página previa existe",
+      hasNextPage: "Indicador para saber si la página siguiente existe.",
+      prevLink: "Link directo a la página previa (null si hasPrevPage=false)",
+      nextLink:
+        "Link directo a la página siguiente (null si hasNextPage=false)",
+    });
   } catch (error) {
     res.status(500).send({ origin: config.SERVER, error: error.message });
   }
 });
 
+/*
+---> Se deberá poder buscar productos por categoría o por disponibilidad, y se deberá poder realizar un ordenamiento de estos productos de manera ascendente o descendente por precio.
+*/
 //GET para filtrar productos por ID
 productsRouter.get("/:pid", async (req, res) => {
   let id = req.params.pid;
