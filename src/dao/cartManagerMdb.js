@@ -1,4 +1,4 @@
-import cartsModel from "./models/carts.model.js";
+import cartsModel from "./models/carts.models.js";
 import productsModel from "./models/products.models.js";
 // import productManagerMdb from "./productManager.mdb.js";
 // const product = new productManagerMdb()

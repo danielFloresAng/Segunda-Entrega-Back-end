@@ -29,6 +29,6 @@ app.set("views", `${config.DIRNAME}/views`);
 app.set("view engine", "handlebars");
 
 app.use("/", viewsRouter);
-app.use("api/products", productsRouter);
-app.use('api/carts', cartRouter)
-app.use("static", express.static(`${config.DIRNAME}/public`));
+app.use("/api/products", productsRouter);
+app.use('/api/carts', cartRouter)
+app.use("/static", express.static(`${config.DIRNAME}/public`));

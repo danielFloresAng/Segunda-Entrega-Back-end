@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import productManagerMdb from "../dao/productManager.mdb.js";
+import productManagerMdb from "../dao/productManagerMdb.js";
 import config from "../config.js";
 
 const productsRouter = Router();
@@ -19,25 +19,42 @@ const manager = new productManagerMdb();
 - query, el tipo de elemento que quiero buscar (es decir, qué filtro aplicar), en caso de no recibir query, realizar la búsqueda general
 
 - sort: asc/desc, para realizar ordenamiento ascendente o descendente por precio, en caso de no recibir sort, no realizar ningún ordenamiento
- 
  */
+
 //GET para traer todos los productos
 productsRouter.get("/", async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = req.query.limit || 10;
   try {
-    const allProducts = await manager.getAllProducts();
+    const allProducts = await manager.getAllProducts(limit, page);
+
+    const totalPages = Math.ceil(
+      (await manager.getAllProducts()).length / limit
+    );
+
+    const pageLimit = page + 1 > totalPages;
 
     res.status(200).send({
       origin: config.SERVER,
       playload: allProducts,
-      totalPages: "Total de páginas",
-      prevPage: "Página anterior",
-      nextPage: "Página siguiente",
-      page: "Página actual",
-      hasPrevPage: "Indicador para saber si la página previa existe",
-      hasNextPage: "Indicador para saber si la página siguiente existe.",
-      prevLink: "Link directo a la página previa (null si hasPrevPage=false)",
-      nextLink:
-        "Link directo a la página siguiente (null si hasNextPage=false)",
+      totalPages: totalPages,
+      prevPage:
+        page - 1 === 0
+          ? "Esta es la primer página, no hay página anterior"
+          : page - 1,
+      nextPage: pageLimit ? "Esta es la página final" : page + 1,
+      page: page,
+      hasPrevPage: page - 1 > 0 ? true : false,
+      hasNextPage: pageLimit ? false : true,
+      prevLink:
+        page - 1 === 0
+          ? null
+          : `http://localhost:8080/api/products?limit=${limit}&page=${
+              page - 1
+            }`,
+      nextLink: pageLimit
+        ? null
+        : `http://localhost:8080/api/products?limit=${limit}&page=${page + 1}`,
     });
   } catch (error) {
     res.status(500).send({ origin: config.SERVER, error: error.message });

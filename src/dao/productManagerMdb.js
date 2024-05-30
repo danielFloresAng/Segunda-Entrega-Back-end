@@ -1,65 +1,37 @@
-import fs from "fs";
+import productsModel from "./models/products.models.js";
 
-class CartManager {
-  constructor(path) {
-    this.carts = [];
-    this.path = path;
+class productManagerMdb {
+  constructor() {
+    this.products = productsModel;
   }
-  async addCarts(item) {
-    let itemsList = this.carts;
-    let itemListPath = this.path;
-    let generateID = itemsList.length + 1;
 
-    let listJSON = JSON.stringify(itemsList);
+  getAllProducts = async (limit, page) => {
+    return await this.products
+      .find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
+  };
 
-    await fs.promises.writeFile(itemListPath, listJSON);
+  async addProducts(newProduct) {
+    await this.products.create(newProduct);
   }
-  async getCarts(limit) {
-    let readItems = await fs.promises.readFile(this.path, this.carts);
-    let itemsParse = JSON.parse(readItems);
 
-    return limit === 0 || limit > itemsParse.length
-      ? itemsParse
-      : itemsParse.slice(0, limit);
-  }
-  async getCartsById(itemID) {
-    let readItems = await fs.promises.readFile(this.path, "utf-8");
-    let list = JSON.parse(readItems);
-    let getItem = await list.find((item) => item.id === itemID);
-    return getItem
-      ? getItem
-      : { error: `El carto con ID "${itemID}" no existe` };
-  }
-  async updateCart(cartID, properties) {
-    let readItems = await fs.promises.readFile(this.path, "utf-8");
-    let listParse = JSON.parse(readItems);
-
-    listParse.forEach((elem) => {
-      if (cartID === elem.id) {
-        for (let prop in properties) {
-          if (prop !== "id") {
-            elem[prop] = properties[prop];
-          }
-        }
-      }
+  async getProductsById(itemId) {
+    let productFiler = await this.products.findOne({
+      _id: itemId,
     });
-    let listJSON = JSON.stringify(listParse);
-    await fs.promises.writeFile(this.path, listJSON);
+
+    return productFiler;
   }
-  async deleteCart(elemId) {
-    let itemsList = this.carts;
 
-    let readItems = await fs.promises.readFile(this.path, "utf-8");
-    let list = JSON.parse(readItems);
-    let filterItem = list.findIndex((elem) => elem.id === elemId);
-
-    if (filterItem !== -1) {
-      itemsList.splice(filterItem, 1);
-    }
-    let listJSON = JSON.stringify(itemsList);
-
-    await fs.promises.writeFile(this.path, listJSON);
+  async updateProduct(itemId, property) {
+    await this.products.findOneAndUpdate({ _id: itemId }, { $set: property });
   }
+
+  deleteProduct = async (idDelete) => {
+    await this.products.deleteOne({ _id: idDelete });
+  };
 }
 
-export default CartManager;
+export default productManagerMdb;
