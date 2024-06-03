@@ -5,9 +5,16 @@ class productManagerMdb {
     this.products = productsModel;
   }
 
-  getAllProducts = async (limit, page) => {
+  getAllProducts = async (limit, page, userQuery, sort, order) => {
+    let sortBy = sort;
+
+    let query = {};
+    if (userQuery) {
+      query = { category: userQuery };
+    }
     return await this.products
-      .find()
+      .find(query)
+      .sort({ [sortBy]: order || 1})
       .skip((page - 1) * limit)
       .limit(limit)
       .lean();

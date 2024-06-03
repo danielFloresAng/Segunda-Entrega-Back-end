@@ -7,6 +7,7 @@ import socketInit from "./sockets.js";
 import productsRouter from "./routes/product.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import viewsRouter from "./routes/views.routes.js";
+import userIndexRouter from "./routes/userIndex.routes.js";
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.set("view engine", "handlebars");
 
 app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
-app.use('/api/carts', cartRouter)
+app.use("/api/carts", cartRouter);
+app.use("/api/users", userIndexRouter);
 app.use("/static", express.static(`${config.DIRNAME}/public`));

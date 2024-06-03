@@ -6,27 +6,22 @@ import config from "../config.js";
 const productsRouter = Router();
 const manager = new productManagerMdb();
 
-/**
-  modificar el método GET / para que cumpla con los siguientes puntos:
-
-
-// Deberá poder recibir por query params un limit (opcional), una page (opcional), un sort (opcional) y un query (opcional)
-
-- limit permitirá devolver sólo el número de elementos solicitados al momento de la petición, en caso de no recibir limit, éste será de 10.
-
-- page permitirá devolver la página que queremos buscar, en caso de no recibir page, ésta será de 1
-
-- query, el tipo de elemento que quiero buscar (es decir, qué filtro aplicar), en caso de no recibir query, realizar la búsqueda general
-
-- sort: asc/desc, para realizar ordenamiento ascendente o descendente por precio, en caso de no recibir sort, no realizar ningún ordenamiento
- */
-
 //GET para traer todos los productos
 productsRouter.get("/", async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
   const limit = req.query.limit || 10;
+  const page = parseInt(req.query.page) || 1;
+  const userQuery = req.query.userQuery;
+  const sortBy = req.query.sort;
+  // const sortOrder = JSON.parse(req.query.order);
+
   try {
-    const allProducts = await manager.getAllProducts(limit, page);
+    const allProducts = await manager.getAllProducts(
+      limit,
+      page,
+      userQuery,
+      sortBy
+      // sortOrder
+    );
 
     const totalPages = Math.ceil(
       (await manager.getAllProducts()).length / limit

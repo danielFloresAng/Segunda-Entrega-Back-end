@@ -1,7 +1,8 @@
 import { Router } from "express";
 
-import cartManagerMdb from "../dao/cartManagerMdb.js";
 import config from "../config.js";
+import cartManagerMdb from "../dao/cartManagerMdb.js";
+import cartsModel from "../dao/models/carts.models.js";
 
 const cartRouter = Router();
 const manager = new cartManagerMdb();
@@ -9,7 +10,9 @@ const manager = new cartManagerMdb();
 // GET para traer todos los carritos
 cartRouter.get("/", async (req, res) => {
   try {
-    res.status(200).send({ status: "GET" });
+    const allCarts = await cartsModel.find().lean();
+
+    res.status(200).send({ status: "GET", playload: allCarts });
   } catch (error) {
     res.status(500).send({ status: "error", error: error.message });
   }
@@ -56,7 +59,7 @@ cartRouter.delete("/:cid/products/:pid", async (req, res) => {
     res.status(500).send({ status: "error", error: error.message });
   }
 });
-// deberá eliminar todos los productos del carrito 
+// deberá eliminar todos los productos del carrito
 cartRouter.delete("/:cid", async (req, res) => {
   try {
     res.status(200).send({ status: "DELETE" });
@@ -67,3 +70,9 @@ cartRouter.delete("/:cid", async (req, res) => {
 
 // Esta vez, para el modelo de Carts, en su propiedad products, el id de cada producto generado dentro del array tiene que hacer referencia al modelo de Products. Modificar la ruta /:cid para que al traer todos los productos, los traiga completos mediante un “populate”. De esta manera almacenamos sólo el Id, pero al solicitarlo podemos desglosar los productos asociados.
 export default cartRouter;
+
+// const allCarts = await cartsModel
+//   .find()
+//   .populate({ path: "_user", model: userIndexModel })
+//   .populate({ path: "products._id", model: productsModel })
+//   .lean();
