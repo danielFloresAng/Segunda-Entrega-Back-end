@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import config from "../config.js";
 import cartManagerMdb from "../dao/cartManagerMdb.js";
-import cartsModel from "../dao/models/carts.models.js";
+// import cartsModel from "../dao/models/carts.models.js";
 
 const cartRouter = Router();
 const manager = new cartManagerMdb();
@@ -10,7 +10,7 @@ const manager = new cartManagerMdb();
 // GET para traer todos los carritos
 cartRouter.get("/", async (req, res) => {
   try {
-    const allCarts = await cartsModel.find().lean();
+    const allCarts = await manager.getAllCarts();
 
     res.status(200).send({ status: "GET", playload: allCarts });
   } catch (error) {
@@ -35,8 +35,10 @@ cartRouter.post("/addCart/:user/:pid", async (req, res) => {
 // PUT para actualizar carritos
 // actualizar el carrito con un arreglo de productos con el formato especificado arriba.
 cartRouter.put("/:cid", async (req, res) => {
+  const cartId = req.params.cid;
   try {
-    res.status(200).send({ status: "PUT" });
+    const cart = await manager.updateCartFormat(cartId);
+    res.status(200).send({ origin: config.SERVER, playload: cart });
   } catch (error) {
     res.status(500).send({ status: "error", error: error.message });
   }
@@ -50,19 +52,27 @@ cartRouter.put("/:cid/products/:pid", async (req, res) => {
   }
 });
 
-// DELETE para eliminar carritos
-//eliminar del carrito el producto seleccionado.
+// DELETE para eliminar el producto seleccionado del carrtito seleccionado
 cartRouter.delete("/:cid/products/:pid", async (req, res) => {
+  const cartId = req.params.cid;
+  const productId = req.params.pid;
+
   try {
-    res.status(200).send({ status: "DELETE" });
+    const cartUpdate = await manager.deleteProduct(cartId, productId);
+
+    res.status(200).send({ origin: config.SERVER, playload: cartUpdate });
   } catch (error) {
     res.status(500).send({ status: "error", error: error.message });
   }
 });
-// deberá eliminar todos los productos del carrito
+
+// DELETE para eliminar todos los productos del carrito
 cartRouter.delete("/:cid", async (req, res) => {
+  const cartId = req.params.cid;
+
   try {
-    res.status(200).send({ status: "DELETE" });
+    const empityCart = manager.deleteAllProducts(cartId);
+    res.status(200).send({ origin: config.SERVER, playload: empityCart });
   } catch (error) {
     res.status(500).send({ status: "error", error: error.message });
   }

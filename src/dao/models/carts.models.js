@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-import userIndexModel from "./users.index.js";
 
 mongoose.pluralize(null);
 
@@ -13,14 +12,10 @@ const cartsSchema = new mongoose.Schema({
   },
   products: {
     type: [{ _id: mongoose.Schema.Types.ObjectId, quantity: Number }],
+    ref:'products',
     required: true,
   },
-  // products: [{ type: Object, required: true }],
 });
-
-cartsSchema.pre('find',function(){
-  this.populate({path: '_user', model: userIndexModel})
-})
 
 const cartsModel = mongoose.model(cartsCollection, cartsSchema);
 

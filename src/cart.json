@@ -1,0 +1,122 @@
+[
+  {
+    "products": [
+      {
+        "_id": "664e80144bf51b7e92643921",
+        "title": "GJS",
+        "description": "STRATS Trust",
+        "price": "1.96",
+        "category": "Finance",
+        "quantity": 3
+      },
+      {
+        "_id": "664e80144bf51b7e9264392f",
+        "title": "UNT",
+        "description": "Unit Corporation",
+        "price": "2.09",
+        "category": "Energy",
+        "quantity": 12
+      },
+      {
+        "_id": "664e80144bf51b7e92643929",
+        "title": "SSKN",
+        "description": "Strata Skin Sciences, Inc.",
+        "price": "2.68",
+        "category": "Health Care",
+        "quantity": 7
+      }
+    ]
+  },
+  {
+    "products": [
+      {
+        "_id": "664e80144bf51b7e9264391f",
+        "title": "PCO",
+        "description": "Pendrell Corporation",
+        "price": "1.82",
+        "category": "Miscellaneous",
+        "quantity": 17
+      },
+      {
+        "_id": "664e80144bf51b7e92643932",
+        "title": "ABY",
+        "description": "Atlantica Yield plc",
+        "price": "8.98",
+        "category": "Public Utilities",
+        "quantity": 20
+      }
+    ]
+  },
+  {
+    "products": [
+      {
+        "_id": "664e80144bf51b7e92643928",
+        "title": "DY",
+        "description": "Dycom Industries, Inc.",
+        "price": "2.38",
+        "category": "Basic Industries",
+        "quantity": 9
+      },
+      {
+        "_id": "664e80144bf51b7e92643920",
+        "title": "ALT",
+        "description": "Altimmune, Inc.",
+        "price": "5.79",
+        "category": "Health Care",
+        "quantity": 14
+      },
+      {
+        "_id": "664e80144bf51b7e92643929",
+        "title": "SSKN",
+        "description": "Strata Skin Sciences, Inc.",
+        "price": "2.68",
+        "category": "Health Care",
+        "quantity": 10
+      },
+      {
+        "_id": "664e80144bf51b7e92643921",
+        "title": "GJS",
+        "description": "STRATS Trust",
+        "price": "1.96",
+        "category": "Finance",
+        "quantity": 15
+      },
+      {
+        "_id": "664e80144bf51b7e92643926",
+        "title": "TOL",
+        "description": "Toll Brothers Inc.",
+        "price": "2.38",
+        "category": "Capital Goods",
+        "quantity": 4
+      }
+    ]
+  },
+  {
+    "products": [
+      {
+        "_id": "664e80144bf51b7e92643926",
+        "title": "TOL",
+        "description": "Toll Brothers Inc.",
+        "price": "2.38",
+        "category": "Capital Goods",
+        "quantity": 8
+      },
+      {
+        "_id": "664e80144bf51b7e9264392f",
+        "title": "UNT",
+        "description": "Unit Corporation",
+        "price": "2.09",
+        "category": "Energy",
+        "quantity": 13
+      },
+      {
+        "_id": "664e80144bf51b7e92643934",
+        "title": "SYF",
+        "description": "Synchrony Financial",
+        "price": "6.23",
+        "category": "Finance",
+        "quantity": 21
+      }
+    ]
+  }
+]
