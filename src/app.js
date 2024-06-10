@@ -7,7 +7,7 @@ import socketInit from "./sockets.js";
 import productsRouter from "./routes/product.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import viewsRouter from "./routes/views.routes.js";
-import userIndexRouter from "./routes/userIndex.routes.js";
+import userIndexRouter from "./routes/user.routes.js";
 
 const app = express();
 

@@ -12,6 +12,6 @@ const schema = new mongoose.Schema({
   role: { type: String, enum: ["admin", "premium", "user"], default: "user" },
 });
 
-const userIndexModel = mongoose.model(collection, schema);
+const model = mongoose.model(collection, schema);
 
-export default userIndexModel;
+export default model;

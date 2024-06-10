@@ -1,16 +1,13 @@
 import { Router } from "express";
 
-import userIndexModel from "../dao/models/users.index.js";
+import userIndexModel from "../dao/models/users.models.js";
 import config from "../config.js";
 
 const router = Router();
 
 router.get("/", async (req, res) => {
   try {
-    const allUsers = await userIndexModel
-      .find({ lastName: "Fahey" })
-      .lean()
-      .explain("executionStats");
+    const allUsers = await userIndexModel.find().limit(10).skip(1).lean();
 
     res.status(200).send({ origin: config.SERVER, playload: allUsers });
   } catch (error) {
